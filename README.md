@@ -36,4 +36,30 @@ YourObject obj = Beach.create(YourObject.class).query();
 `
 
 
-**Please let me know if any issues you find from Beach.**
+__Please let me know if any issues you find from Beach.__
+
+
+### Gradle
+
+
+allprojects {
+
+    repositories {
+    
+        jcenter()
+        
+        maven { url "https://jitpack.io" }
+        
+    }
+    
+}
+
+dependencies {
+
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    
+    ...
+    
+    compile 'com.github.zetazaw:Beach:-SNAPSHOT'
+
+}
