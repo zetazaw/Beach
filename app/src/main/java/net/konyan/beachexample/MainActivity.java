@@ -13,12 +13,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         MyObject myObject = new MyObject(1, "My Object");
-        Beach.init(this);
-        Beach beach = Beach.create(MyObject.class);
-        beach.insert(myObject);
-        beach.commit();
 
-        MyObject myObj = Beach.create(MyObject.class).query();
-        System.out.println(myObj.getName());
+        Beach.init(this);
+
+        boolean success = Beach.insert(myObject).commit();
+
+        System.out.println("Commit success :"+success);
+
+        MyObject readObj = Beach.where(MyObject.class).query();
+
+        System.out.println("My obj>"+readObj.getName());
+
     }
 }

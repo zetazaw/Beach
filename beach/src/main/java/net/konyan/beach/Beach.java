@@ -7,7 +7,7 @@ import android.util.Log;
  * Created by zeta on 5/21/16.
  */
 public class Beach {
-    final String LOG_TAG = Beach.class.getSimpleName();
+    static final String LOG_TAG = Beach.class.getSimpleName();
     Context context;
     Class clazz;
     Object object;
@@ -24,20 +24,25 @@ public class Beach {
         }
     }
 
-    public static Beach create(Class clazz){
+    public static Beach where(Class clazz){
         try {
             beach.clazz = clazz;
         }catch (NullPointerException npe){
             throw new NullPointerException(Beach.class.getSimpleName() + " need to init first!");
         }
         return beach;
-
     }
 
-    public Beach insert(Object object){
-        this.object = object;
-        Log.d(LOG_TAG, "Successfully insert");
-        return beach;
+    public static Beach insert(Object object){
+        try {
+            beach.clazz = object.getClass();
+            beach.object = object;
+            Log.d(LOG_TAG, "Successfully insert");
+            return beach;
+        }catch (NullPointerException npe){
+            throw new NullPointerException(Beach.class.getSimpleName() + " need to init first!");
+        }
+
     }
 
     public boolean commit(){
