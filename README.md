@@ -6,17 +6,17 @@ You need to init in your application or activity to use Beach.
 
 `
 Beach.init(this);
-`
+
 
 ArrayList<MyObject> obj = new ArrayList<>();
-        for (int i = 0 ; i<10; i++){
-            MyObject myObject = new MyObject(i+1, "My Object_"+(i+1));
+for (int i = 0 ; i<10; i++){
+        MyObject myObject = new MyObject(i+1, "My Object_"+(i+1));
             obj.add(myObject);
         }
-        MyObject myObject = new MyObject(1, "My Object_");
-        Beach.insert(MyObject.class.getSimpleName(), myObject).commit();
 
-        List<MyObject> objects = Beach.where(MyObject.class.getSimpleName()).query();
+Beach.insert(MyObject.class.getSimpleName(), obj).commit();
+
+List<MyObject> objects = Beach.where(MyObject.class.getSimpleName()).query();
 `
 
 __you can check your commit is success or not because the commit() method return boolean__
