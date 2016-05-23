@@ -7,22 +7,6 @@ You need to init in your application or activity to use Beach.
 
 Beach.init(this);
 
-
-ArrayList<MyObject> obj = new ArrayList<>();
-
-
-for (int i = 0 ; i<10; i++){
-
-
-        MyObject myObject = new MyObject(i+1, "My Object_"+(i+1));
-        
-        
-            obj.add(myObject);
-            
-            
-        }
-
-
 Beach.insert(MyObject.class.getSimpleName(), obj).commit();
 
 List<MyObject> objects = Beach.where(MyObject.class.getSimpleName()).query();
