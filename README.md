@@ -9,7 +9,7 @@ Beach.init(this);
 
 Beach.insert(MyObject.class.getSimpleName(), obj).commit();
 
-List<MyObject> objects = Beach.where(MyObject.class.getSimpleName()).query();
+
 `
 
 __you can check your commit is success or not because the commit() method return boolean__
@@ -18,7 +18,7 @@ __you can check your commit is success or not because the commit() method return
 You can get your data easily if you wrote with Beach!
 
 `
-YourObject obj = Beach.create(YourObject.class).query();
+List<MyObject> objects = Beach.where(MyObject.class.getSimpleName()).query();
 `
 
 
