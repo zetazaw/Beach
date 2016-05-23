@@ -8,7 +8,7 @@ You need to init in your application or activity to use Beach.
 Beach.init(this);
 
 
-Beach.insert(MyObject.class.getSimpleName(), obj).commit();
+Beach.insert("key", obj).commit();
 
 
 __you can check your commit is success or not because the commit() method return boolean__
