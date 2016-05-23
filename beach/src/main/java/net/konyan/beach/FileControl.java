@@ -3,6 +3,7 @@ package net.konyan.beach;
 import android.content.Context;
 import android.util.Log;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -20,12 +21,12 @@ public class FileControl {
         this.context = context;
     }
 
-    public boolean writeData(final Object obj) {
+    public synchronized boolean writeData(final  String fileName, final Object obj) {
         boolean success = false;
         ObjectOutputStream oos = null;
         FileOutputStream fos = null;
         try {
-            fos = context.openFileOutput(obj.getClass().getSimpleName(), Context.MODE_PRIVATE);
+            fos = context.openFileOutput(fileName, Context.MODE_PRIVATE);
             oos = new ObjectOutputStream(fos);
             oos.writeObject(obj);
             success = true;
@@ -50,7 +51,7 @@ public class FileControl {
         return success;
     }
 
-    public Object readData(String fileName) {
+    public synchronized Object readData(String fileName) {
         FileInputStream fis;
         ObjectInputStream ois;
         try {
@@ -61,6 +62,15 @@ public class FileControl {
             Log.d(LOG_TAG, ex.getMessage());
         }
         return null;
+    }
+
+    public synchronized boolean deleteFile(String fileName){
+        File file = new File(context.getFilesDir(), fileName);
+        if (file.isFile()){
+            return file.delete();
+        }else {
+            return false;
+        }
     }
 
 }

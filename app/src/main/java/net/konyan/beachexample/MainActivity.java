@@ -5,6 +5,9 @@ import android.os.Bundle;
 
 import net.konyan.beach.Beach;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -12,17 +15,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        MyObject myObject = new MyObject(1, "My Object");
-
         Beach.init(this);
 
-        boolean success = Beach.insert(myObject).commit();
 
-        System.out.println("Commit success :"+success);
+        /*ArrayList<MyObject> obj = new ArrayList<>();
 
-        MyObject readObj = Beach.where(MyObject.class).query();
+        for (int i = 0 ; i<10; i++){
+            MyObject myObject = new MyObject(i+1, "My Object_"+(i+1));
+            obj.add(myObject);
+        }*/
+        MyObject myObject = new MyObject(1, "My Object_");
+        Beach.insert(MyObject.class.getSimpleName(), myObject).commit();
 
-        System.out.println("My obj>"+readObj.getName());
+        List<MyObject> objects = Beach.where(MyObject.class.getSimpleName()).query();
+
+        System.out.println("Result size:"+objects.size());
+
 
     }
 }
