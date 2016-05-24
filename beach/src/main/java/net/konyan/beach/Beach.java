@@ -1,9 +1,9 @@
 package net.konyan.beach;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,8 +66,6 @@ public class Beach {
             if (l != null){
                 list.addAll(l);
             }
-
-
             return fileControl.writeData(key, list);
         }throw new NullPointerException("Cannot commit the null data!");
 
@@ -81,5 +79,24 @@ public class Beach {
     public boolean clear(){
         FileControl fileControl = new FileControl(context);
         return fileControl.deleteFile(key);
+    }
+
+    public <T> T search(String name, Object value){
+        List<?> l = query();
+        for (Object o : l){
+            try {
+                Field f = o.getClass().getField(name);
+                Object temp = f.get(o);
+                if (temp.equals(value)){
+                    return (T)o;
+                }
+
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 }

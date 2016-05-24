@@ -17,19 +17,24 @@ public class MainActivity extends AppCompatActivity {
 
         Beach.init(this);
 
+        Beach.where("key").clear();
 
-        /*ArrayList<MyObject> obj = new ArrayList<>();
+        ArrayList<MyObject> obj = new ArrayList<>();
 
-        for (int i = 0 ; i<10; i++){
+        for (int i = 0 ; i<5; i++){
             MyObject myObject = new MyObject(i+1, "My Object_"+(i+1));
             obj.add(myObject);
-        }*/
-        MyObject myObject = new MyObject(1, "My Object_");
-        Beach.insert(MyObject.class.getSimpleName(), myObject).commit();
+        }
 
-        List<MyObject> objects = Beach.where(MyObject.class.getSimpleName()).query();
+        Beach.insert("key", obj).commit();
+
+        List<MyObject> objects = Beach.where("key").query();
 
         System.out.println("Result size:"+objects.size());
+
+        MyObject result = Beach.where("key").search("name","My Object_2");
+
+        System.out.println(result.getId()+" - "+result.getName());
 
 
     }
