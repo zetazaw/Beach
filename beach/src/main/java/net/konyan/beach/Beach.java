@@ -90,9 +90,9 @@ public class Beach {
 
     }
 
-    public <T>List<T> query(){
+    public <T>T query(){
         FileControl fileControl = new FileControl(context);
-        return (List<T>) fileControl.readData(key);
+        return (T) fileControl.readData(key);
     }
 
     public boolean clear(){
@@ -119,12 +119,6 @@ public class Beach {
             }
         }
         return null;
-    }
-
-
-    public <T> T get(){
-        FileControl fileControl = new FileControl(context);
-        return (T) fileControl.readData(key);
     }
 
 }
