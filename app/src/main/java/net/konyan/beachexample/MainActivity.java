@@ -17,7 +17,17 @@ public class MainActivity extends AppCompatActivity {
 
         Beach.init(this);
 
-        Beach.where("key").clear();
+        MyObject myObject = new MyObject(2, "My Object_"+(2));
+
+        boolean b = Beach.insert("key", myObject).save();
+
+        System.out.println("Success : "+b);
+
+        MyObject readObj = Beach.where("key").get();
+
+        System.out.println(readObj.getName());
+
+        /*Beach.where("key").clear();
 
         ArrayList<MyObject> obj = new ArrayList<>();
 
@@ -34,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
         MyObject result = Beach.where("key").search("name","My Object_2");
 
-        System.out.println(result.getId()+" - "+result.getName());
+        System.out.println(result.getId()+" - "+result.getName());*/
 
 
     }

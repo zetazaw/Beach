@@ -15,6 +15,7 @@ public class Beach {
     Context context;
     String key;
     List<Object> list;
+    Object object;
 
 
     static Beach beach;
@@ -33,7 +34,7 @@ public class Beach {
         try {
             beach.key = key;
         }catch (NullPointerException npe){
-            throw new NullPointerException(Beach.class.getSimpleName() + " need to init first!");
+            throw new RuntimeException(Beach.class.getSimpleName() + " need to init first!");
         }
         return beach;
     }
@@ -50,14 +51,20 @@ public class Beach {
             else if (value instanceof Object){
                 beach.list = new ArrayList<>();
                 beach.list.add(value);
+                beach.object = value;
+            }else {
+                throw new RuntimeException(Beach.class.getSimpleName() + " cannot deal with null data!");
             }
 
         }catch (NullPointerException npe){
-            throw new NullPointerException(Beach.class.getSimpleName() + " need to init first!");
+            throw new RuntimeException(Beach.class.getSimpleName() + " need to init first!");
         }
         return beach;
     }
 
+    /*
+    db operation style
+     */
     public boolean commit(){
         FileControl fileControl = new FileControl(context);
         List<Object> l = (List<Object>) fileControl.readData(key);
@@ -67,7 +74,19 @@ public class Beach {
                 list.addAll(l);
             }
             return fileControl.writeData(key, list);
-        }throw new NullPointerException("Cannot commit the null data!");
+        }
+        throw new RuntimeException(Beach.class.getSimpleName() + " cannot commit with null data!");
+    }
+
+    /*
+    single object save as a file
+     */
+    public boolean save(){
+        FileControl fileControl = new FileControl(context);
+        if (object instanceof Object){
+            return fileControl.writeData(key, object);
+        }
+        return false;
 
     }
 
@@ -81,6 +100,9 @@ public class Beach {
         return fileControl.deleteFile(key);
     }
 
+    /*
+    it's work but too weak to use; need to test a lot
+     */
     public <T> T search(String name, Object value){
         List<?> l = query();
         for (Object o : l){
@@ -90,7 +112,6 @@ public class Beach {
                 if (temp.equals(value)){
                     return (T)o;
                 }
-
             } catch (NoSuchFieldException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {
@@ -99,4 +120,11 @@ public class Beach {
         }
         return null;
     }
+
+
+    public <T> T get(){
+        FileControl fileControl = new FileControl(context);
+        return (T) fileControl.readData(key);
+    }
+
 }
