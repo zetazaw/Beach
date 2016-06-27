@@ -63,6 +63,30 @@ public class Beach {
     }
 
     /*
+        overloading method because of serialize matter
+     */
+    public static <T extends Serializable> Beach insert(String key, List<T> value){
+        try {
+            beach.key = key;
+            if (value instanceof List<?>){
+                beach.list =(List) value;
+            }
+            else if (value instanceof Object){
+                beach.list = new ArrayList<>();
+                beach.list.add(value);
+                beach.object = value;
+            }else {
+                throw new RuntimeException(Beach.class.getSimpleName() + " cannot deal with null data!");
+            }
+
+        }catch (NullPointerException npe){
+            throw new RuntimeException(Beach.class.getSimpleName() + " need to init first!");
+        }
+        return beach;
+    }
+
+
+    /*
     db operation style
      */
     public boolean commit(){

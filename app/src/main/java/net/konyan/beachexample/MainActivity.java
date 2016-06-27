@@ -2,6 +2,7 @@ package net.konyan.beachexample;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import net.konyan.beach.Beach;
 
@@ -10,6 +11,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    final String LOG_TAG = MainActivity.class.getSimpleName();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -17,41 +20,31 @@ public class MainActivity extends AppCompatActivity {
 
         Beach.init(this);
 
-       /* MyObject myObject = new MyObject(2, "My Object_"+(2));
+        List<MyObject> objects = new ArrayList<>();
 
-        boolean b = Beach.insert("key", myObject).save();
+        objects.add(new MyObject(1, "A"));
+        objects.add(new MyObject(2, "B"));
+        objects.add(new MyObject(3, "C"));
 
-        System.out.println("Success : "+b);
+        boolean saved = Beach.insert(MyObject.class.getSimpleName(), objects).commit();
 
-        MyObject readObj = Beach.where("key").get();
+        Log.d(LOG_TAG, "saved: " + saved);
 
-        System.out.println(readObj.getName());*/
-
-        Beach.where("key").clear();
-
-        /*ArrayList<MyObject> obj = new ArrayList<>();
-
-        for (int i = 0 ; i<5; i++){
-            MyObject myObject = new MyObject(i+1, "My Object_"+(i+1));
-            obj.add(myObject);
+        if (saved){
+            List<MyObject> savedObjects = Beach.where(MyObject.class.getSimpleName()).query();
+            Log.d(LOG_TAG, "last obj size:" + savedObjects.size());
+            Log.d(LOG_TAG, "last obj:" + savedObjects.get(savedObjects.size()-1).getName());
         }
 
-        Beach.insert("key", obj).commit();*/
+        //update new item
+        boolean updated = Beach.insert(MyObject.class.getSimpleName(), new MyObject(4, "D")).commit();
 
-        MyObject myObject = new MyObject(2, "My Object_"+(2));
-
-        boolean b = Beach.insert("key", myObject).save();
-
-        System.out.println("Success : "+b);
-
-        List<MyObject> objects = Beach.where("key").query();
-
-        System.out.println("Result size:"+objects.size());
-
-        MyObject result = Beach.where("key").search("name","My Object_2");
-
-        System.out.println(result.getId()+" - "+result.getName());
-
+        if (updated){
+            List<MyObject> savedObjects = Beach.where(MyObject.class.getSimpleName()).query();
+            Log.d(LOG_TAG, "last obj size:" + savedObjects.size());
+            //last in, fast out
+            Log.d(LOG_TAG, "last obj:" + savedObjects.get(0).getName());
+        }
 
     }
 }
